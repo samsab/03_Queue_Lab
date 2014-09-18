@@ -85,9 +85,9 @@ int main(){
 
 	testCtor(testQueue);
 	testAddRemove(testQueue);
-	//testAroundTheHorn(testQueue);
+	testAroundTheHorn(testQueue);
 	testGrow(testQueue);
-	//testRemoveException(testQueue);
+	testRemoveException(testQueue);
 
 	return 0;
 }

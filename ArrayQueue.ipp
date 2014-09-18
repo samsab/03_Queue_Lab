@@ -1,5 +1,4 @@
-//You will need this so you can make a string to throw in
-// remove
+//You will need this so you can make a string to throw in remove
 #include <string>
 
 //Syntax note: This uses the pre-processor to create a constant
@@ -15,42 +14,34 @@
 // ArrayQueue<T> class.
 template <class T>
 ArrayQueue<T>::ArrayQueue(){
+	front = 0;
 	numItems = 0;
-	backingArray = new T[numItems];
+	backingArraySize = START_SIZE;
+	backingArray = new T[backingArraySize];
 }
 
 template <class T>
 ArrayQueue<T>::~ArrayQueue() {
-	
+	delete[] backingArray;
 }
 
 template <class T>
 void ArrayQueue<T>::add(T toAdd){
+	if (numItems == backingArraySize)
+		grow();
+	backingArray[(front + numItems) % backingArraySize] = toAdd;
 	numItems++;
-
-	T* myNewArray = new T[numItems];
-	myNewArray[numItems - 1] = toAdd;
-
-	for(unsigned int i = 0; i < numItems - 2; i++)
-		myNewArray[i] = backingArray[i];
-	
-	delete[] backingArray;
-	backingArray = myNewArray;
 }
 
 template <class T>
 T ArrayQueue<T>::remove(){
+	if (numItems < 1)
+		throw std::string("ERROR: Cannot remove from empty queue.");
+	T ret = backingArray[front % backingArraySize];
+
+	front++;
 	numItems--;
-
-	T* myNewArray = new T[numItems];
-	T a = backingArray[0];
-
-	for(unsigned int i = 0; i < numItems; i++)
-		myNewArray[i] = backingArray[i + 1];
-	
-	delete[] backingArray;
-	backingArray = myNewArray;
-	return a;
+	return ret;
 }
 
 template <class T>
@@ -60,14 +51,12 @@ unsigned long ArrayQueue<T>::getNumItems(){
 
 template <class T>
 void ArrayQueue<T>::grow(){
-	numItems *= 2;
-	backingArraySize *= 2;
-
 	T* myNewArray = new T[numItems];
 
-	for(unsigned int i = 0; i < numItems - 1; i++)
-		myNewArray[i] = backingArray[i];
+	for(unsigned int i = 0; i < backingArraySize; i++)
+		myNewArray[i] = backingArray[(i + front) % backingArraySize];
 	
+	backingArraySize *= 2;
 	delete[] backingArray;
 	backingArray = myNewArray;
 }
