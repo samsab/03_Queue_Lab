@@ -32,7 +32,7 @@ void testAddRemove(ArrayQueue<int>& testQueue){
 
 //Test to see if your queue still works if we do add, remove, add, remove many times
 void testAroundTheHorn(ArrayQueue<int>& testQueue){
-	for(int i=0;i<1000;i++){
+	for(int i = 0; i < 1000; i++){
 		testQueue.add(i);
 		int t = testQueue.remove();
 		if(t != i){
@@ -45,16 +45,15 @@ void testAroundTheHorn(ArrayQueue<int>& testQueue){
 
 //Test to see if your queue can grow to handle lots of items
 void testGrow(ArrayQueue<int>& testQueue){
-	for(int i=0;i<1000;i++){
+	for(int i = 0; i < 1000; i++)
 		testQueue.add(i);
-	}
 
 	if(testQueue.getNumItems() != 1000){
 		std::cout << "ERROR: Should have 1000 items in queue, but only found " << testQueue.getNumItems() << std::endl;
 		return;
 	}
 
-	for(int i=0;i<1000;i++){
+	for(int i = 0; i < 1000; i++){
 		int t = testQueue.remove();
 		if(t != i){
 			std::cout << "ERROR: Added " << i << " but got back " << t << std::endl;
